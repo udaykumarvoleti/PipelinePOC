@@ -20,19 +20,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Show available Xcode versions and simulators
+      - name: Show Xcode version
         run: |
-          ls /Applications | grep -i xcode
           xcodebuild -version
           xcrun simctl list devices available
 
-      - name: Run tests
+      - name: Run iOS tests
         run: |
           set -o pipefail
           xcodebuild test \
             -project PipelinePOC.xcodeproj \
             -scheme PipelinePOC \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -parallel-testing-enabled NO \
             -resultBundlePath TestResults.xcresult \
             CODE_SIGNING_ALLOWED=NO
 
@@ -41,5 +41,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: PipelinePOC-results
-          path: PipelinePOCTestResults.xcresult
-
+          path: TestResults.xcresult
+          if-no-files-found: warn
