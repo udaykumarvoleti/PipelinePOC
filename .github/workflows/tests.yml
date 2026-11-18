@@ -30,9 +30,9 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild test \
-            -project MyApp.xcodeproj \
-            -scheme MyApp \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -project PipelinePOC.xcodeproj \
+            -scheme PipelinePOC \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             -resultBundlePath TestResults.xcresult \
             CODE_SIGNING_ALLOWED=NO
 
@@ -40,6 +40,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
-          path: TestResults.xcresult
+          name: PipelinePOC-results
+          path: PipelinePOCTestResults.xcresult
 
